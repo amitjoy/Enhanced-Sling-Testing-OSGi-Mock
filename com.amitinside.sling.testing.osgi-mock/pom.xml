@@ -32,8 +32,7 @@
 				<version>2.4.0</version>
 				<extensions>true</extensions>
 				<configuration>
-					<instructions>
-					</instructions>
+					<manifestLocation>./META-INF/MANIFEST.MF</manifestLocation>
 				</configuration>
 			</plugin>
 		</plugins>
