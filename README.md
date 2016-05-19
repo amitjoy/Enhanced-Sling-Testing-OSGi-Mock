@@ -6,6 +6,8 @@ This is the reason, this project has been started to remove all these dependenci
 
 Features:
 
-1. OSGi R4 Ready
-2. Google Guava Dependency
-3. Apache Commons Dependency
+1. Added OSGi R4 Support
+2. Removed Apache Felix Support
+2. Added Equinox Support
+3. Added Google Guava Dependency
+4. Added Apache Commons Dependency
