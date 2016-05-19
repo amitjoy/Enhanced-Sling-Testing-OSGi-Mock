@@ -93,14 +93,13 @@ class MockConfiguration implements Configuration {
 		// not supported.
 		// still allow calling this method to allow usage of {@link
 		// update(Dictionary)}, but it works
-		// only if applied bevore registering a service in mock-osgi.
+		// only if applied before registering a service in mock-osgi.
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void update(final Dictionary properties) {
 		this.props = new Hashtable<String, Object>(MapUtil.toMap(properties));
-		;
 		this.props.put(Constants.SERVICE_PID, this.pid);
 		this.update();
 	}

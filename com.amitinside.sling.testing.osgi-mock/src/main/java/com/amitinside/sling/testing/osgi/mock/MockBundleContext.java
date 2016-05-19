@@ -105,9 +105,7 @@ class MockBundleContext implements BundleContext {
 		if (s == null) {
 			return new MatchAllFilter();
 		} else {
-			return null;
-			// TODO (AKM)
-			// return new FilterImpl(s);
+			return FilterImpl.newInstance(s);
 		}
 	}
 

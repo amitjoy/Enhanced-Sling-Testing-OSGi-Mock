@@ -106,10 +106,8 @@ class MockServiceRegistration<T> implements ServiceRegistration<T>, Comparable<M
 
 	boolean matches(final String clazz, final String filter) throws InvalidSyntaxException {
 		// ignore filter for now
-		// return this.clazzes.contains(clazz) && ((filter == null) || new
-		// FilterImpl(filter).match(this.properties));
-		// TODO(AKM)
-		return false;
+		return this.clazzes.contains(clazz)
+				&& ((filter == null) || FilterImpl.newInstance(filter).match(this.properties));
 	}
 
 	/**

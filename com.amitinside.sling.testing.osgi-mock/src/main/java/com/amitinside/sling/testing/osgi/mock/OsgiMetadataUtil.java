@@ -42,6 +42,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.framework.Filter;
+import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -225,8 +226,13 @@ final class OsgiMetadataUtil {
 			this.fieldCollectionType = toFieldCollectionType(getAttributeValue(node, "field-collection-type"));
 			this.target = getAttributeValue(node, "target");
 			if (StringUtils.isNotEmpty(this.target)) {
-				// Not Used : Target Filter
-				// TODO(AKM)
+				try {
+					this.targetFilter = FilterImpl.newInstance(this.target);
+				} catch (final InvalidSyntaxException ex) {
+					throw new RuntimeException(
+							"Invalid target filet in reference '" + this.name + "' of class " + clazz.getName(), ex);
+				}
+			} else {
 				this.targetFilter = null;
 			}
 		}
