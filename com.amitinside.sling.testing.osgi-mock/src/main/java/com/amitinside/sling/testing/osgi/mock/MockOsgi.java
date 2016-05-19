@@ -1,0 +1,318 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+package com.amitinside.sling.testing.osgi.mock;
+
+import static com.amitinside.sling.testing.osgi.mock.MapUtil.propertiesMergeWithOsgiMetadata;
+import static com.amitinside.sling.testing.osgi.mock.MapUtil.toDictionary;
+import static com.amitinside.sling.testing.osgi.mock.MapUtil.toMap;
+
+import java.util.Dictionary;
+import java.util.Map;
+
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.BundleEvent;
+import org.osgi.framework.ServiceReference;
+import org.osgi.service.cm.ConfigurationAdmin;
+import org.osgi.service.component.ComponentContext;
+import org.osgi.service.log.LogService;
+
+/**
+ * Factory for mock OSGi objects.
+ */
+public final class MockOsgi {
+
+	/**
+	 * Simulate activation of service instance. Invokes the @Activate annotated
+	 * method.
+	 * 
+	 * @param target
+	 *            Service instance.
+	 * @param bundleContext
+	 *            Bundle context
+	 * @return true if activation method was called. False if no activate method
+	 *         is defined.
+	 */
+	public static boolean activate(final Object target, final BundleContext bundleContext) {
+		return MockOsgi.activate(target, bundleContext, (Dictionary<String, Object>) null);
+	}
+
+	/**
+	 * Simulate activation of service instance. Invokes the @Activate annotated
+	 * method.
+	 * 
+	 * @param target
+	 *            Service instance.
+	 * @param bundleContext
+	 *            Bundle context
+	 * @param properties
+	 *            Properties
+	 * @return true if activation method was called. False if no activate method
+	 *         is defined.
+	 */
+	public static boolean activate(final Object target, final BundleContext bundleContext,
+			final Dictionary<String, Object> properties) {
+		final Dictionary<String, Object> mergedProperties = propertiesMergeWithOsgiMetadata(target,
+				getConfigAdmin(bundleContext), properties);
+		final ComponentContext componentContext = newComponentContext(bundleContext, mergedProperties);
+		return OsgiServiceUtil.activateDeactivate(target, componentContext, true);
+	}
+
+	/**
+	 * Simulate activation of service instance. Invokes the @Activate annotated
+	 * method.
+	 * 
+	 * @param target
+	 *            Service instance.
+	 * @param bundleContext
+	 *            Bundle context
+	 * @param properties
+	 *            Properties
+	 * @return true if activation method was called. False if no activate method
+	 *         is defined.
+	 */
+	public static boolean activate(final Object target, final BundleContext bundleContext,
+			final Map<String, Object> properties) {
+		return activate(target, bundleContext, toDictionary(properties));
+	}
+
+	/**
+	 * @return {@link ComponentContextBuilder} to build a mocked
+	 *         {@link ComponentContext}
+	 */
+	public static ComponentContextBuilder componentContext() {
+		return new ComponentContextBuilder();
+	}
+
+	/**
+	 * Simulate deactivation of service instance. Invokes the @Deactivate
+	 * annotated method.
+	 * 
+	 * @param target
+	 *            Service instance.
+	 * @param bundleContext
+	 *            Bundle context.
+	 * @return true if deactivation method was called. False if no deactivate
+	 *         method is defined.
+	 */
+	public static boolean deactivate(final Object target, final BundleContext bundleContext) {
+		return MockOsgi.deactivate(target, bundleContext, (Dictionary<String, Object>) null);
+	}
+
+	/**
+	 * Simulate deactivation of service instance. Invokes the @Deactivate
+	 * annotated method.
+	 * 
+	 * @param target
+	 *            Service instance.
+	 * @param bundleContext
+	 *            Bundle context
+	 * @param properties
+	 *            Properties
+	 * @return true if deactivation method was called. False if no deactivate
+	 *         method is defined.
+	 */
+	public static boolean deactivate(final Object target, final BundleContext bundleContext,
+			final Dictionary<String, Object> properties) {
+		final Dictionary<String, Object> mergedProperties = propertiesMergeWithOsgiMetadata(target,
+				getConfigAdmin(bundleContext), properties);
+		final ComponentContext componentContext = newComponentContext(bundleContext, mergedProperties);
+		return OsgiServiceUtil.activateDeactivate(target, componentContext, false);
+	}
+
+	/**
+	 * Simulate activation of service instance. Invokes the @Deactivate
+	 * annotated method.
+	 * 
+	 * @param target
+	 *            Service instance.
+	 * @param bundleContext
+	 *            Bundle context
+	 * @param properties
+	 *            Properties
+	 * @return true if deactivation method was called. False if no deactivate
+	 *         method is defined.
+	 */
+	public static boolean deactivate(final Object target, final BundleContext bundleContext,
+			final Map<String, Object> properties) {
+		return deactivate(target, bundleContext, toDictionary(properties));
+	}
+
+	/**
+	 * Get configuration admin.
+	 * 
+	 * @param bundleContext
+	 *            Bundle context
+	 * @return Configuration admin or null if not registered.
+	 */
+	private static ConfigurationAdmin getConfigAdmin(final BundleContext bundleContext) {
+		final ServiceReference<?> ref = bundleContext.getServiceReference(ConfigurationAdmin.class.getName());
+		if (ref != null) {
+			return (ConfigurationAdmin) bundleContext.getService(ref);
+		}
+		return null;
+	}
+
+	/**
+	 * Simulate OSGi service dependency injection. Injects direct references and
+	 * multiple references. If a some references could not be injected no error
+	 * is thrown.
+	 * 
+	 * @param target
+	 *            Service instance
+	 * @param bundleContext
+	 *            Bundle context from which services are fetched to inject.
+	 * @return true if all dependencies could be injected, false if the service
+	 *         has no dependencies.
+	 */
+	public static boolean injectServices(final Object target, final BundleContext bundleContext) {
+		return OsgiServiceUtil.injectServices(target, bundleContext);
+	}
+
+	/**
+	 * Simulate configuration modification of service instance. Invokes
+	 * the @Modified annotated method.
+	 * 
+	 * @param target
+	 *            Service instance.
+	 * @param bundleContext
+	 *            Bundle context
+	 * @param properties
+	 *            Properties
+	 * @return true if modified method was called. False if no modified method
+	 *         is defined.
+	 */
+	public static boolean modified(final Object target, final BundleContext bundleContext,
+			final Dictionary<String, Object> properties) {
+		return modified(target, bundleContext, toMap(properties));
+	}
+
+	/**
+	 * Simulate configuration modification of service instance. Invokes
+	 * the @Modified annotated method.
+	 * 
+	 * @param target
+	 *            Service instance.
+	 * @param bundleContext
+	 *            Bundle context
+	 * @param properties
+	 *            Properties
+	 * @return true if modified method was called. False if no modified method
+	 *         is defined.
+	 */
+	public static boolean modified(final Object target, final BundleContext bundleContext,
+			final Map<String, Object> properties) {
+		final Map<String, Object> mergedProperties = propertiesMergeWithOsgiMetadata(target,
+				getConfigAdmin(bundleContext), properties);
+		final ComponentContext componentContext = newComponentContext(bundleContext, mergedProperties);
+		return OsgiServiceUtil.modified(target, componentContext, mergedProperties);
+	}
+
+	/**
+	 * @return Mocked {@link BundleContext} instance
+	 */
+	public static BundleContext newBundleContext() {
+		return new MockBundleContext();
+	}
+
+	/**
+	 * @return Mocked {@link ComponentContext} instance
+	 */
+	public static ComponentContext newComponentContext() {
+		return componentContext().build();
+	}
+
+	/**
+	 * @param bundleContext
+	 *            Bundle context
+	 * @param properties
+	 *            Properties
+	 * @return Mocked {@link ComponentContext} instance
+	 */
+	public static ComponentContext newComponentContext(final BundleContext bundleContext,
+			final Dictionary<String, Object> properties) {
+		return componentContext().bundleContext(bundleContext).properties(properties).build();
+	}
+
+	/**
+	 * @param bundleContext
+	 *            Bundle context
+	 * @param properties
+	 *            Properties
+	 * @return Mocked {@link ComponentContext} instance
+	 */
+	public static ComponentContext newComponentContext(final BundleContext bundleContext,
+			final Map<String, Object> properties) {
+		return componentContext().bundleContext(bundleContext).properties(properties).build();
+	}
+
+	/**
+	 * @param properties
+	 *            Properties
+	 * @return Mocked {@link ComponentContext} instance
+	 */
+	public static ComponentContext newComponentContext(final Dictionary<String, Object> properties) {
+		return componentContext().properties(properties).build();
+	}
+
+	/**
+	 * @param properties
+	 *            Properties
+	 * @return Mocked {@link ComponentContext} instance
+	 */
+	public static ComponentContext newComponentContext(final Map<String, Object> properties) {
+		return componentContext().properties(properties).build();
+	}
+
+	/**
+	 * @param loggerContext
+	 *            Context class for logging
+	 * @return Mocked {@link LogService} instance
+	 */
+	public static LogService newLogService(final Class<?> loggerContext) {
+		return new MockLogService(loggerContext);
+	}
+
+	/**
+	 * Simulates a bundle event on the given bundle context (that is forwarded
+	 * to registered bundle listeners).
+	 * 
+	 * @param bundleContext
+	 *            Bundle context
+	 * @param bundleEvent
+	 *            Bundle event
+	 */
+	public static void sendBundleEvent(final BundleContext bundleContext, final BundleEvent bundleEvent) {
+		((MockBundleContext) bundleContext).sendBundleEvent(bundleEvent);
+	}
+
+	/**
+	 * Deactivates all bundles registered in the mocked bundle context.
+	 * 
+	 * @param bundleContext
+	 *            Bundle context
+	 */
+	public static void shutdown(final BundleContext bundleContext) {
+		((MockBundleContext) bundleContext).shutdown();
+	}
+
+	private MockOsgi() {
+		// static methods only
+	}
+
+}
