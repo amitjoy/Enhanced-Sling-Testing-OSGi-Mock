@@ -237,7 +237,7 @@ final class OsgiServiceUtil {
 		try {
 			final ServiceReference[] references = bundleContext.getServiceReferences(type.getName(), filter);
 			if (references != null) {
-				for (final ServiceReference<?> serviceReference : references) {
+				for (final ServiceReference serviceReference : references) {
 					final Object serviceInstance = bundleContext.getService(serviceReference);
 					final Map<String, Object> serviceConfig = new HashMap<String, Object>();
 					final String[] keys = serviceReference.getPropertyKeys();

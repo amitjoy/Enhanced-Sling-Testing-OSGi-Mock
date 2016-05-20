@@ -492,9 +492,9 @@ public class FilterImpl implements Filter /* since Framework 1.1 */ {
 	 *
 	 */
 	private static class ServiceReferenceDictionary extends Dictionary<String, Object> {
-		private final ServiceReference<?> reference;
+		private final ServiceReference reference;
 
-		ServiceReferenceDictionary(final ServiceReference<?> reference) {
+		ServiceReferenceDictionary(final ServiceReference reference) {
 			this.reference = reference;
 		}
 
@@ -1557,9 +1557,9 @@ public class FilterImpl implements Filter /* since Framework 1.1 */ {
 	 *             name.
 	 */
 	@Override
-	public boolean match(Dictionary<String, ?> dictionary) {
+	public boolean match(Dictionary dictionary) {
 		if (dictionary != null) {
-			dictionary = new Headers<String, Object>(dictionary);
+			dictionary = new Headers(dictionary);
 		}
 
 		return this.matchCase(dictionary);
@@ -1579,9 +1579,9 @@ public class FilterImpl implements Filter /* since Framework 1.1 */ {
 	 *         {@code Filter}; {@code false} otherwise.
 	 */
 	@Override
-	public boolean match(final ServiceReference<?> reference) {
+	public boolean match(final ServiceReference reference) {
 		if (reference instanceof ServiceReferenceImpl) {
-			return this.matchCase(((ServiceReferenceImpl<?>) reference).getRegistration().getProperties());
+			return this.matchCase(((ServiceReferenceImpl) reference).getRegistration().getProperties());
 		}
 		return this.matchCase(new ServiceReferenceDictionary(reference));
 	}
@@ -1599,7 +1599,7 @@ public class FilterImpl implements Filter /* since Framework 1.1 */ {
 	 * @since 1.3
 	 */
 	@Override
-	public boolean matchCase(final Dictionary<String, ?> dictionary) {
+	public boolean matchCase(final Dictionary dictionary) {
 		switch (this.op) {
 		case AND: {
 			final FilterImpl[] filters = (FilterImpl[]) this.value;
@@ -1667,7 +1667,7 @@ public class FilterImpl implements Filter /* since Framework 1.1 */ {
 	 * @since 1.6
 	 */
 	@Override
-	public boolean matches(final Map<String, ?> map) {
+	public boolean matches(final Map map) {
 		switch (this.op) {
 		case AND: {
 			final FilterImpl[] filters = (FilterImpl[]) this.value;

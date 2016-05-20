@@ -45,7 +45,7 @@ public class MatchAllFilter implements Filter {
 	}
 
 	@Override
-	public boolean matches(final Map<String, ?> map) {
+	public boolean matches(final Map map) {
 		return true;
 	}
 

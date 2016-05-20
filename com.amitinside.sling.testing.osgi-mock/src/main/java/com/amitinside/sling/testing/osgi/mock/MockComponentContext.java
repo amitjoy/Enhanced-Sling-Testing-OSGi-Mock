@@ -69,7 +69,7 @@ class MockComponentContext implements ComponentContext {
 	}
 
 	@Override
-	public ServiceReference<?> getServiceReference() {
+	public ServiceReference getServiceReference() {
 		throw new UnsupportedOperationException();
 	}
 

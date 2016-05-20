@@ -29,7 +29,7 @@ import org.osgi.framework.ServiceReference;
 /**
  * Mock {@link ServiceReference} implementation.
  */
-class MockServiceReference<T> implements ServiceReference<T> {
+class MockServiceReference<T> implements ServiceReference {
 
 	private final Bundle bundle;
 	private volatile Comparable<Object> comparable;

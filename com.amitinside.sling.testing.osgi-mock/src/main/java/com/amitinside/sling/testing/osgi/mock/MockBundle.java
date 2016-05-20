@@ -51,7 +51,7 @@ public final class MockBundle implements Bundle {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param bundleContext
 	 *            Bundle context
 	 */
@@ -61,12 +61,7 @@ public final class MockBundle implements Bundle {
 	}
 
 	@Override
-	public <A> A adapt(final Class<A> type) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public int compareTo(final Bundle o) {
+	public Object adapt(final Class type) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -139,7 +134,7 @@ public final class MockBundle implements Bundle {
 
 	@Override
 	public Dictionary<String, String> getHeaders(final String locale) {
-		// localziation not supported, always return default headers
+		// localization not supported, always return default headers
 		return this.getHeaders();
 	}
 
@@ -154,7 +149,7 @@ public final class MockBundle implements Bundle {
 	}
 
 	@Override
-	public ServiceReference<?>[] getRegisteredServices() {
+	public ServiceReference[] getRegisteredServices() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -169,7 +164,7 @@ public final class MockBundle implements Bundle {
 	}
 
 	@Override
-	public ServiceReference<?>[] getServicesInUse() {
+	public ServiceReference[] getServicesInUse() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -220,7 +215,7 @@ public final class MockBundle implements Bundle {
 
 	/**
 	 * Set headers for mock bundle
-	 * 
+	 *
 	 * @param value
 	 *            Header map
 	 */
@@ -230,7 +225,7 @@ public final class MockBundle implements Bundle {
 
 	/**
 	 * Set the last modified value for the mock bundle
-	 * 
+	 *
 	 * @param lastModified
 	 *            last modified
 	 */
@@ -240,7 +235,7 @@ public final class MockBundle implements Bundle {
 
 	/**
 	 * Set symbolic name for mock bundle
-	 * 
+	 *
 	 * @param value
 	 *            Symbolic name
 	 */
@@ -282,5 +277,10 @@ public final class MockBundle implements Bundle {
 	public void update(final InputStream inputStream) {
 		throw new UnsupportedOperationException();
 	}
-
+	
+	@Override
+	public int compareTo(Bundle o) {
+		throw new UnsupportedOperationException();
+	}
+	
 }

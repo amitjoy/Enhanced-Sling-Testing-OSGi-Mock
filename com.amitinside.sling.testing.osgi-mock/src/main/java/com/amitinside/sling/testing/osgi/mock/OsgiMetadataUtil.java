@@ -299,7 +299,7 @@ final class OsgiMetadataUtil {
 					|| (this.cardinality == ReferenceCardinality.OPTIONAL_MULTIPLE);
 		}
 
-		public boolean matchesTargetFilter(final ServiceReference<?> serviceReference) {
+		public boolean matchesTargetFilter(final ServiceReference serviceReference) {
 			if (this.targetFilter == null) {
 				return true;
 			}

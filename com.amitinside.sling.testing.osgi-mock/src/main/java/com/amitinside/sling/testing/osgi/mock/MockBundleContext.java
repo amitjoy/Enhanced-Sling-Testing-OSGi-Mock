@@ -57,7 +57,7 @@ import com.google.common.io.Files;
 /**
  * Mock {@link BundleContext} implementation.
  */
-class MockBundleContext implements BundleContext {
+ class MockBundleContext implements BundleContext {
 
 	private final MockBundle bundle;
 	private final Queue<BundleListener> bundleListeners = new ConcurrentLinkedQueue<BundleListener>();
@@ -161,14 +161,9 @@ class MockBundleContext implements BundleContext {
 		return null;
 	}
 
-	@Override
-	public <S> S getService(final ServiceReference<S> serviceReference) {
-		return ((MockServiceReference<S>) serviceReference).getService();
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S> ServiceReference<S> getServiceReference(final Class<S> clazz) {
+	public ServiceReference getServiceReference(final Class clazz) {
 		return this.getServiceReference(clazz.getName());
 	}
 
@@ -188,13 +183,12 @@ class MockBundleContext implements BundleContext {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S> Collection<ServiceReference<S>> getServiceReferences(final Class<S> clazz, final String filter)
-			throws InvalidSyntaxException {
-		final ServiceReference<S>[] result = this.getServiceReferences(clazz.getName(), filter);
+	public Collection getServiceReferences(final Class clazz, final String filter) throws InvalidSyntaxException {
+		final ServiceReference[] result = this.getServiceReferences(clazz.getName(), filter);
 		if (result == null) {
-			return ImmutableList.<ServiceReference<S>>of();
+			return ImmutableList.<ServiceReference>of();
 		} else {
-			return ImmutableList.<ServiceReference<S>>copyOf(result);
+			return ImmutableList.<ServiceReference>copyOf(result);
 		}
 	}
 
@@ -292,7 +286,7 @@ class MockBundleContext implements BundleContext {
 	}
 
 	@SuppressWarnings("unchecked")
-	<S> S locateService(final String name, final ServiceReference<S> reference) {
+	<S> S locateService(final String name, final ServiceReference reference) {
 		for (final MockServiceRegistration<?> serviceRegistration : this.registeredServices) {
 			if (serviceRegistration.getReference() == reference) {
 				return (S) serviceRegistration.getService();
@@ -312,8 +306,7 @@ class MockBundleContext implements BundleContext {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S> ServiceRegistration<S> registerService(final Class<S> clazz, final S service,
-			final Dictionary<String, ?> properties) {
+	public ServiceRegistration registerService(final Class clazz, final Object service, final Dictionary properties) {
 		return this.registerService(clazz.getName(), service, properties);
 	}
 
@@ -395,6 +388,11 @@ class MockBundleContext implements BundleContext {
 		this.registeredServices.remove(registration);
 		this.handleRefsUpdateOnUnregister(registration);
 		this.notifyServiceListeners(ServiceEvent.UNREGISTERING, registration.getReference());
+	}
+
+	@Override
+	public Object getService(ServiceReference serviceReference) {
+		return ((MockServiceReference)serviceReference).getService();
 	}
 
 }

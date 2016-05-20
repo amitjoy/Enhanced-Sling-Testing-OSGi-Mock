@@ -37,7 +37,7 @@ import com.google.common.collect.ImmutableList;
 /**
  * Mock {@link ServiceRegistration} implementation.
  */
-class MockServiceRegistration<T> implements ServiceRegistration<T>, Comparable<MockServiceRegistration<T>> {
+class MockServiceRegistration<T> implements ServiceRegistration, Comparable<MockServiceRegistration<T>> {
 
 	private static volatile long serviceCounter;
 
@@ -46,7 +46,7 @@ class MockServiceRegistration<T> implements ServiceRegistration<T>, Comparable<M
 	private Dictionary<String, Object> properties;
 	private final T service;
 	private final Long serviceId;
-	private final ServiceReference<T> serviceReference;
+	private final ServiceReference serviceReference;
 
 	@SuppressWarnings("unchecked")
 	public MockServiceRegistration(final Bundle bundle, final String[] clazzes, final T service,
@@ -55,7 +55,7 @@ class MockServiceRegistration<T> implements ServiceRegistration<T>, Comparable<M
 		this.clazzes = new HashSet<String>(ImmutableList.copyOf(clazzes));
 
 		if (service instanceof ServiceFactory) {
-			this.service = ((ServiceFactory<T>) service).getService(bundleContext.getBundle(), this);
+			this.service = (T) ((ServiceFactory) service).getService(bundleContext.getBundle(), this);
 		} else {
 			this.service = service;
 		}
@@ -91,7 +91,7 @@ class MockServiceRegistration<T> implements ServiceRegistration<T>, Comparable<M
 	}
 
 	@Override
-	public ServiceReference<T> getReference() {
+	public ServiceReference getReference() {
 		return this.serviceReference;
 	}
 

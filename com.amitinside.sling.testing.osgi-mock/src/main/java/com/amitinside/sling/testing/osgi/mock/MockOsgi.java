@@ -40,7 +40,7 @@ public final class MockOsgi {
 	/**
 	 * Simulate activation of service instance. Invokes the @Activate annotated
 	 * method.
-	 * 
+	 *
 	 * @param target
 	 *            Service instance.
 	 * @param bundleContext
@@ -55,7 +55,7 @@ public final class MockOsgi {
 	/**
 	 * Simulate activation of service instance. Invokes the @Activate annotated
 	 * method.
-	 * 
+	 *
 	 * @param target
 	 *            Service instance.
 	 * @param bundleContext
@@ -76,7 +76,7 @@ public final class MockOsgi {
 	/**
 	 * Simulate activation of service instance. Invokes the @Activate annotated
 	 * method.
-	 * 
+	 *
 	 * @param target
 	 *            Service instance.
 	 * @param bundleContext
@@ -102,7 +102,7 @@ public final class MockOsgi {
 	/**
 	 * Simulate deactivation of service instance. Invokes the @Deactivate
 	 * annotated method.
-	 * 
+	 *
 	 * @param target
 	 *            Service instance.
 	 * @param bundleContext
@@ -117,7 +117,7 @@ public final class MockOsgi {
 	/**
 	 * Simulate deactivation of service instance. Invokes the @Deactivate
 	 * annotated method.
-	 * 
+	 *
 	 * @param target
 	 *            Service instance.
 	 * @param bundleContext
@@ -138,7 +138,7 @@ public final class MockOsgi {
 	/**
 	 * Simulate activation of service instance. Invokes the @Deactivate
 	 * annotated method.
-	 * 
+	 *
 	 * @param target
 	 *            Service instance.
 	 * @param bundleContext
@@ -155,13 +155,13 @@ public final class MockOsgi {
 
 	/**
 	 * Get configuration admin.
-	 * 
+	 *
 	 * @param bundleContext
 	 *            Bundle context
 	 * @return Configuration admin or null if not registered.
 	 */
 	private static ConfigurationAdmin getConfigAdmin(final BundleContext bundleContext) {
-		final ServiceReference<?> ref = bundleContext.getServiceReference(ConfigurationAdmin.class.getName());
+		final ServiceReference ref = bundleContext.getServiceReference(ConfigurationAdmin.class.getName());
 		if (ref != null) {
 			return (ConfigurationAdmin) bundleContext.getService(ref);
 		}
@@ -172,7 +172,7 @@ public final class MockOsgi {
 	 * Simulate OSGi service dependency injection. Injects direct references and
 	 * multiple references. If a some references could not be injected no error
 	 * is thrown.
-	 * 
+	 *
 	 * @param target
 	 *            Service instance
 	 * @param bundleContext
@@ -187,7 +187,7 @@ public final class MockOsgi {
 	/**
 	 * Simulate configuration modification of service instance. Invokes
 	 * the @Modified annotated method.
-	 * 
+	 *
 	 * @param target
 	 *            Service instance.
 	 * @param bundleContext
@@ -205,7 +205,7 @@ public final class MockOsgi {
 	/**
 	 * Simulate configuration modification of service instance. Invokes
 	 * the @Modified annotated method.
-	 * 
+	 *
 	 * @param target
 	 *            Service instance.
 	 * @param bundleContext
@@ -291,7 +291,7 @@ public final class MockOsgi {
 	/**
 	 * Simulates a bundle event on the given bundle context (that is forwarded
 	 * to registered bundle listeners).
-	 * 
+	 *
 	 * @param bundleContext
 	 *            Bundle context
 	 * @param bundleEvent
@@ -303,7 +303,7 @@ public final class MockOsgi {
 
 	/**
 	 * Deactivates all bundles registered in the mocked bundle context.
-	 * 
+	 *
 	 * @param bundleContext
 	 *            Bundle context
 	 */
