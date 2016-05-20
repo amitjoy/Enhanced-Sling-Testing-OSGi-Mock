@@ -11,3 +11,4 @@ Features:
 2. Added Equinox Support
 3. Added Google Guava Dependency
 4. Added Apache Commons Dependency
+5. Eclipse Kura Development Environment Compatible (Tested)
