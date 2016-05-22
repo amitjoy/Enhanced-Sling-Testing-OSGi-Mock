@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1463910900471
+Bnd-LastModified: 1463911264618
 Build-Jdk: 1.8.0_92
 Built-By: AMIT
 Bundle-Description: Enhanced version of Apache Sling Testing OSGi Mock u
