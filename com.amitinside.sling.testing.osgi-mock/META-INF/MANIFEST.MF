@@ -1,20 +1,14 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1463947393658
 Build-Jdk: 1.8.0_92
-Built-By: AMIT
 Bundle-Description: Enhanced version of Apache Sling Testing OSGi Mock u
  tility to provide mock implementations of OSGi API for easier testing
 Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
 Bundle-ManifestVersion: 2
 Bundle-Name: Enhanced Sling Testing OSGi Mock
 Bundle-SymbolicName: com.amitinside.sling.testing.osgi-mock
-Bundle-Version: 1.0.0
-Created-By: Apache Maven Bundle Plugin
-Export-Package: com.amitinside.sling.testing.osgi.mock;version="1.0.0";
-  uses:="org.osgi.framework,
-   org.osgi.service.component,
-   org.osgi.service.event,
-   org.osgi.service.log"
+Bundle-Version: 1.1.0
+Created-By: Amit Kumar Mondal
+Export-Package: com.amitinside.sling.testing.osgi.mock;version="1.1.0"
 Import-Package: com.google.common.cache;version="[19.0,20)",
  com.google.common.collect;version="[19.0,20)",
  com.google.common.io;version="[19.0,20)",
@@ -36,4 +30,4 @@ Import-Package: com.google.common.cache;version="[19.0,20)",
  org.slf4j;version="[1.6,2)",
  org.w3c.dom,
  org.xml.sax
-Tool: Bnd-2.1.0.20130426-122213
+Service-Component: OSGI-INF/*.xml

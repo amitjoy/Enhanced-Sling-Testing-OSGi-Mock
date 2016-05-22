@@ -7,7 +7,7 @@
 	<name>Enhanced Sling Testing OSGi Mock</name>
 	<description>Enhanced version of Apache Sling Testing OSGi Mock utility to provide mock implementations of OSGi API for easier testing</description>
 	<url>https://github.com/amitjoy/Enhanced-Sling-Testing-OSGi-Mock</url>
-	<packaging>bundle</packaging>
+	<packaging>jar</packaging>
 	<licenses>
 		<license>
 			<name>The Apache License, Version 2.0</name>
@@ -93,12 +93,13 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<version>2.4.0</version>
-				<extensions>true</extensions>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.0</version>
 				<configuration>
-					<manifestLocation>./META-INF/</manifestLocation>
+					<archive>
+						<manifestFile>./META-INF/MANIFEST.MF</manifestFile>
+					</archive>
 				</configuration>
 			</plugin>
 			<plugin>
