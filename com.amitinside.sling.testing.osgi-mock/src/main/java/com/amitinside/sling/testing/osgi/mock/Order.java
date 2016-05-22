@@ -20,10 +20,9 @@ package com.amitinside.sling.testing.osgi.mock;
 
 /**
  * Order for services being sorted by
- * {@link ServiceUtil#getComparableForServiceRanking(java.util.Map, Order)} or
- * {@link RankedServices}. Either {@link #ASCENDING} meaning services with
- * lowest service ranking first or {@link #DESCENDING} meaning services with
- * highest service ranking first.
+ * {@link ServiceUtil#getComparableForServiceRanking(java.util.Map, Order)}.
+ * Either {@link #ASCENDING} meaning services with lowest service ranking first
+ * or {@link #DESCENDING} meaning services with highest service ranking first.
  */
 public enum Order {
 	ASCENDING(-1, 1), DESCENDING(1, -1);

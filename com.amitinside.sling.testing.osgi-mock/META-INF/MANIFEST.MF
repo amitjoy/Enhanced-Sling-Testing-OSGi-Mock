@@ -1,19 +1,26 @@
 Manifest-Version: 1.0
+Bnd-LastModified: 1463906196301
+Build-Jdk: 1.8.0_92
+Built-By: AMIT
+Bundle-Description: Enhanced version of Apache Sling Testing OSGi Mock u
+ tility to provide mock implementations of OSGi API for easier testing
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
 Bundle-ManifestVersion: 2
 Bundle-Name: Enhanced Sling Testing OSGi Mock
 Bundle-SymbolicName: com.amitinside.sling.testing.osgi-mock
-Bundle-Version: 1.0.0.qualifier
-Bundle-Vendor: Amit Kumar Mondal
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: com.google.common.cache;version="19.0.0",
- com.google.common.collect;version="19.0.0",
- com.google.common.io;version="19.0.0",
- org.apache.commons.io;version="2.4.0",
- org.apache.commons.lang3;version="3.4.0",
- org.osgi.framework;version="1.7.0",
- org.osgi.service.cm;version="1.4.0",
- org.osgi.service.component;version="1.2.0",
- org.osgi.service.event;version="1.3.0",
- org.slf4j;version="1.6.4"
-Require-Bundle: org.eclipse.osgi
-Service-Component: OSGI-INF/component.xml
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: com.amitinside.sling.testing.osgi.mock;uses:="org.osgi.f
+ ramework,org.osgi.service.component,org.osgi.service.event,org.osgi.ser
+ vice.log";version="1.0.0.SNAPSHOT"
+Import-Package: com.google.common.cache;version="[19.0,20)",com.google.c
+ ommon.collect;version="[19.0,20)",com.google.common.io;version="[19.0,2
+ 0)",javax.xml.namespace,javax.xml.parsers,javax.xml.xpath,org.apache.co
+ mmons.io,org.apache.commons.lang3;version="[3.4,4)",org.eclipse.osgi.fr
+ amework.debug,org.eclipse.osgi.framework.internal.core,org.eclipse.osgi
+ .framework.util,org.eclipse.osgi.internal.serviceregistry,org.eclipse.o
+ sgi.util;version="[1.1,2)",org.osgi.framework;version="[1.7,2)",org.osg
+ i.service.cm;version="[1.3,2)",org.osgi.service.component;version="[1.1
+ ,2)",org.osgi.service.event;version="[1.2,2)",org.osgi.service.log;vers
+ ion="[1.3,2)",org.slf4j;version="[1.7,2)",org.w3c.dom,org.xml.sax
+Tool: Bnd-2.1.0.20130426-122213

@@ -48,51 +48,6 @@ import org.osgi.framework.ServiceReference;
  * The string representation of an LDAP search filter is defined by the
  * following grammar. It uses a prefix format.
  *
- * <pre>
- *   &lt;filter&gt; ::= '(' &lt;filtercomp&gt; ')'
- *   &lt;filtercomp&gt; ::= &lt;and&gt; | &lt;or&gt; | &lt;not&gt; | &lt;item&gt;
- *   &lt;and&gt; ::= '&' &lt;filterlist&gt;
- *   &lt;or&gt; ::= '|' &lt;filterlist&gt;
- *   &lt;not&gt; ::= '!' &lt;filter&gt;
- *   &lt;filterlist&gt; ::= &lt;filter&gt; | &lt;filter&gt; &lt;filterlist&gt;
- *   &lt;item&gt; ::= &lt;simple&gt; | &lt;present&gt; | &lt;substring&gt;
- *   &lt;simple&gt; ::= &lt;attr&gt; &lt;filtertype&gt; &lt;value&gt;
- *   &lt;filtertype&gt; ::= &lt;equal&gt; | &lt;approx&gt; | &lt;greater&gt; | &lt;less&gt;
- *   &lt;equal&gt; ::= '='
- *   &lt;approx&gt; ::= '~='
- *   &lt;greater&gt; ::= '&gt;='
- *   &lt;less&gt; ::= '&lt;='
- *   &lt;present&gt; ::= &lt;attr&gt; '=*'
- *   &lt;substring&gt; ::= &lt;attr&gt; '=' &lt;initial&gt; &lt;any&gt; &lt;final&gt;
- *   &lt;initial&gt; ::= NULL | &lt;value&gt;
- *   &lt;any&gt; ::= '*' &lt;starval&gt;
- *   &lt;starval&gt; ::= NULL | &lt;value&gt; '*' &lt;starval&gt;
- *   &lt;final&gt; ::= NULL | &lt;value&gt;
- * </pre>
- *
- * <code>&lt;attr&gt;</code> is a string representing an attribute, or key, in
- * the properties objects of the registered services. Attribute names are not
- * case sensitive; that is cn and CN both refer to the same attribute.
- * <code>&lt;value&gt;</code> is a string representing the value, or part of
- * one, of a key in the properties objects of the registered services. If a
- * <code>&lt;value&gt;</code> must contain one of the characters
- * '<code>*</code>' or '<code>(</code>' or '<code>)</code>', these characters
- * should be escaped by preceding them with the backslash '<code>\</code>'
- * character. Note that although both the <code>&lt;substring&gt;</code> and
- * <code>&lt;present&gt;</code> productions can produce the
- * <code>'attr=*'</code> construct, this construct is used only to denote a
- * presence filter.
- *
- * <p>
- * Examples of LDAP filters are:
- *
- * <pre>
- *   &quot;(cn=Babs Jensen)&quot;
- *   &quot;(!(cn=Tim Howes))&quot;
- *   &quot;(&(&quot; + Constants.OBJECTCLASS + &quot;=Person)(|(sn=Jensen)(cn=Babs J*)))&quot;
- *   &quot;(o=univ*of*mich*)&quot;
- * </pre>
- *
  * <p>
  * The approximate match (<code>~=</code>) is implementation specific but should
  * at least ignore case and white space differences. Optional are codes like
@@ -105,38 +60,7 @@ import org.osgi.framework.ServiceReference;
  * defined by the object type of the key's value. The following rules apply for
  * comparison:
  *
- * <blockquote>
- * <TABLE BORDER=0>
- * <TR>
- * <TD><b>Property Value Type </b></TD>
- * <TD><b>Comparison Type</b></TD>
- * </TR>
- * <TR>
- * <TD>String</TD>
- * <TD>String comparison</TD>
- * </TR>
- * <TR valign=top>
- * <TD>Integer, Long, Float, Double, Byte, Short, BigInteger, BigDecimal</TD>
- * <TD>numerical comparison</TD>
- * </TR>
- * <TR>
- * <TD>Character</TD>
- * <TD>character comparison</TD>
- * </TR>
- * <TR>
- * <TD>Boolean</TD>
- * <TD>equality comparisons only</TD>
- * </TR>
- * <TR>
- * <TD>[] (array)</TD>
- * <TD>recursively applied to values</TD>
- * </TR>
- * <TR>
- * <TD>Vector</TD>
- * <TD>recursively applied to elements</TD>
- * </TR>
- * </TABLE>
- * Note: arrays of primitives are also supported. </blockquote>
+ * Note: arrays of primitives are also supported.
  *
  * A filter matches a key that has multiple values if it matches at least one of
  * those values. For example,
@@ -648,6 +572,7 @@ public class FilterImpl implements Filter /* since Framework 1.1 */ {
 	 * @exception InvalidSyntaxException
 	 *                If the filter parameter contains an invalid filter string
 	 *                that cannot be parsed.
+	 * @return the new instance of a filter
 	 */
 	public static FilterImpl newInstance(final String filterString) throws InvalidSyntaxException {
 		return new Parser(filterString).parse();

@@ -27,7 +27,7 @@ import org.osgi.framework.ServiceReference;
 /**
  * The <code>ServiceUtil</code> is a utility class providing some useful utility
  * methods for service handling.
- * 
+ *
  * @since 2.1
  */
 public class ServiceUtil {
@@ -106,7 +106,7 @@ public class ServiceUtil {
 	 * @param props
 	 *            The service properties.
 	 * @return the same comparable as returned by
-	 *         {@link #getComparableForServiceRanking(Map, Order.ASCENDING)}
+	 *         getComparableForServiceRanking(Map, Order.ASCENDING)
 	 * @see #getComparableForServiceRanking(Map, Order)
 	 */
 	@Deprecated
@@ -124,7 +124,7 @@ public class ServiceUtil {
 	 * highest ranking comes first. The latter is useful if you want to have the
 	 * service returned first which is also chosen by
 	 * {@link BundleContext#getServiceReference(String)}.
-	 * 
+	 *
 	 * @param props
 	 *            The service properties.
 	 * @param order
