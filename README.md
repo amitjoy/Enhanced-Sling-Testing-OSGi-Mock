@@ -12,3 +12,14 @@ Features:
 3. Added Google Guava Dependency
 4. Added Apache Commons Dependency
 5. Eclipse Kura Development Environment Compatible (Tested)
+
+### Maven Central
+```xml
+<!-- http://mvnrepository.com/artifact/com.amitinside/com.amitinside.tooling.chart.spider -->
+<dependency>
+    <groupId>com.amitinside</groupId>
+    <artifactId>com.amitinside.sling.testing.osgi-mock</artifactId>
+    <version>1.1.0</version>
+</dependency>
+```
+
