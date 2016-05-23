@@ -18,7 +18,7 @@ Features:
 <dependency>
     <groupId>com.amitinside</groupId>
     <artifactId>com.amitinside.sling.testing.osgi-mock</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 
