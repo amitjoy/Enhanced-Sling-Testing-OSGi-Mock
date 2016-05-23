@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.amitinside</groupId>
 	<artifactId>com.amitinside.sling.testing.osgi-mock</artifactId>
-	<version>1.1.0</version>
+	<version>1.2.0</version>
 	<name>Enhanced Sling Testing OSGi Mock</name>
 	<description>Enhanced version of Apache Sling Testing OSGi Mock utility to provide mock implementations of OSGi API for easier testing</description>
 	<url>https://github.com/amitjoy/Enhanced-Sling-Testing-OSGi-Mock</url>
@@ -68,6 +68,11 @@
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.service.log</artifactId>
 			<version>1.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
 		</dependency>
 	</dependencies>
 
