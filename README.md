@@ -15,7 +15,6 @@ Features:
 
 ### Maven Central
 ```xml
-<!-- http://mvnrepository.com/artifact/com.amitinside/com.amitinside.tooling.chart.spider -->
 <dependency>
     <groupId>com.amitinside</groupId>
     <artifactId>com.amitinside.sling.testing.osgi-mock</artifactId>
