@@ -19,7 +19,6 @@
 package com.amitinside.sling.testing.osgi.mock;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Dictionary;
@@ -33,8 +32,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleEvent;
@@ -57,13 +54,38 @@ import com.google.common.io.Files;
 /**
  * Mock {@link BundleContext} implementation.
  */
- class MockBundleContext implements BundleContext {
+class MockBundleContext implements BundleContext {
+
+	/**
+	 * Delets a dir recursively deleting anything inside it.
+	 *
+	 * @param dir
+	 *            The dir to delete
+	 * @return true if the dir was successfully deleted
+	 */
+	public static boolean deleteDirectory(final File dir) {
+		if (!dir.exists() || !dir.isDirectory()) {
+			return false;
+		}
+
+		final String[] files = dir.list();
+		for (final String file : files) {
+			final File f = new File(dir, file);
+			if (f.isDirectory()) {
+				deleteDirectory(f);
+			} else {
+				f.delete();
+			}
+		}
+		return dir.delete();
+	}
 
 	private final MockBundle bundle;
 	private final Queue<BundleListener> bundleListeners = new ConcurrentLinkedQueue<BundleListener>();
 	private final ConfigurationAdmin configAdmin = new MockConfigurationAdmin();
 	private File dataFileBaseDir;
 	private final SortedSet<MockServiceRegistration> registeredServices = new ConcurrentSkipListSet<MockServiceRegistration>();
+
 	private final Map<ServiceListener, Filter> serviceListeners = new ConcurrentHashMap<ServiceListener, Filter>();
 
 	public MockBundleContext() {
@@ -159,6 +181,11 @@ import com.google.common.io.Files;
 		// no mock implementation, simulate that no property is found and return
 		// null
 		return null;
+	}
+
+	@Override
+	public Object getService(final ServiceReference serviceReference) {
+		return ((MockServiceReference) serviceReference).getService();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -314,7 +341,7 @@ import com.google.common.io.Files;
 	@Override
 	public ServiceRegistration registerService(final String clazz, final Object service, final Dictionary properties) {
 		String[] clazzes;
-		if (StringUtils.isBlank(clazz)) {
+		if (StringUtil.isBlank(clazz)) {
 			clazzes = new String[0];
 		} else {
 			clazzes = new String[] { clazz };
@@ -370,11 +397,7 @@ import com.google.common.io.Files;
 			}
 		}
 		if (this.dataFileBaseDir != null) {
-			try {
-				FileUtils.deleteDirectory(this.dataFileBaseDir);
-			} catch (final IOException e) {
-				// ignore
-			}
+			deleteDirectory(this.dataFileBaseDir);
 		}
 	}
 
@@ -388,11 +411,6 @@ import com.google.common.io.Files;
 		this.registeredServices.remove(registration);
 		this.handleRefsUpdateOnUnregister(registration);
 		this.notifyServiceListeners(ServiceEvent.UNREGISTERING, registration.getReference());
-	}
-
-	@Override
-	public Object getService(ServiceReference serviceReference) {
-		return ((MockServiceReference)serviceReference).getService();
 	}
 
 }

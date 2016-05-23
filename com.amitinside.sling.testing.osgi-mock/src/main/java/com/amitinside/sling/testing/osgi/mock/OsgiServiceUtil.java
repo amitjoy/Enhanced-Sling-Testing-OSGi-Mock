@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 
-import org.apache.commons.lang3.StringUtils;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
@@ -125,7 +124,7 @@ final class OsgiServiceUtil {
 			methodName = metadata.getDeactivateMethodName();
 		}
 		boolean fallbackDefaultName = false;
-		if (StringUtils.isEmpty(methodName)) {
+		if (StringUtil.isEmpty(methodName)) {
 			fallbackDefaultName = true;
 			if (activate) {
 				methodName = "activate";
@@ -173,7 +172,7 @@ final class OsgiServiceUtil {
 	private static Field getField(final Class clazz, final String fieldName, final Class<?> type) {
 		final Field[] fields = clazz.getDeclaredFields();
 		for (final Field field : fields) {
-			if (StringUtils.equals(field.getName(), fieldName) && field.getType().equals(type)) {
+			if (StringUtil.equals(field.getName(), fieldName) && field.getType().equals(type)) {
 				return field;
 			}
 		}
@@ -188,7 +187,7 @@ final class OsgiServiceUtil {
 	private static Field getFieldWithAssignableType(final Class clazz, final String fieldName, final Class<?> type) {
 		final Field[] fields = clazz.getDeclaredFields();
 		for (final Field field : fields) {
-			if (StringUtils.equals(field.getName(), fieldName) && field.getType().isAssignableFrom(type)) {
+			if (StringUtil.equals(field.getName(), fieldName) && field.getType().isAssignableFrom(type)) {
 				return field;
 			}
 		}
@@ -220,7 +219,7 @@ final class OsgiServiceUtil {
 				for (final Reference reference : metadata.getReferences()) {
 					if (reference.getPolicy() == ReferencePolicy.DYNAMIC) {
 						for (final String serviceInterface : registration.getClasses()) {
-							if (StringUtils.equals(serviceInterface, reference.getInterfaceType())) {
+							if (StringUtil.equals(serviceInterface, reference.getInterfaceType())) {
 								references.add(new ReferenceInfo(existingRegistration, reference));
 							}
 						}
@@ -256,7 +255,7 @@ final class OsgiServiceUtil {
 	private static Method getMethod(final Class clazz, final String methodName, final Class<?>[] types) {
 		final Method[] methods = clazz.getDeclaredMethods();
 		for (final Method method : methods) {
-			if (StringUtils.equals(method.getName(), methodName)
+			if (StringUtil.equals(method.getName(), methodName)
 					&& (method.getParameterTypes().length == types.length)) {
 				boolean foundMismatch = false;
 				for (int i = 0; i < types.length; i++) {
@@ -283,7 +282,7 @@ final class OsgiServiceUtil {
 			final Class<?>[] types) {
 		final Method[] methods = clazz.getDeclaredMethods();
 		for (final Method method : methods) {
-			if (StringUtils.equals(method.getName(), methodName) && (method.getParameterTypes().length > 1)) {
+			if (StringUtil.equals(method.getName(), methodName) && (method.getParameterTypes().length > 1)) {
 				boolean foundMismatch = false;
 				for (final Class<?> parameterType : method.getParameterTypes()) {
 					boolean foundAnyMatch = false;
@@ -315,7 +314,7 @@ final class OsgiServiceUtil {
 			final Class<?>[] types) {
 		final Method[] methods = clazz.getDeclaredMethods();
 		for (final Method method : methods) {
-			if (StringUtils.equals(method.getName(), methodName)
+			if (StringUtil.equals(method.getName(), methodName)
 					&& (method.getParameterTypes().length == types.length)) {
 				boolean foundMismatch = false;
 				for (int i = 0; i < types.length; i++) {
@@ -425,12 +424,12 @@ final class OsgiServiceUtil {
 		final String methodName = bind ? reference.getBind() : reference.getUnbind();
 		final String fieldName = reference.getField();
 
-		if (StringUtils.isEmpty(methodName) && StringUtils.isEmpty(fieldName)) {
+		if (StringUtil.isEmpty(methodName) && StringUtil.isEmpty(fieldName)) {
 			throw new RuntimeException("No bind/unbind method name or file name defined " + "for reference '"
 					+ reference.getName() + "' for class " + targetClass.getName());
 		}
 
-		if (StringUtils.isNotEmpty(methodName) && (serviceInfo != null)) {
+		if (StringUtil.isNotEmpty(methodName) && (serviceInfo != null)) {
 
 			// 1. ServiceReference
 			Method method = getMethod(targetClass, methodName, new Class<?>[] { ServiceReference.class });
@@ -461,7 +460,7 @@ final class OsgiServiceUtil {
 
 		// in OSGi declarative services 1.3 there are no bind/unbind methods -
 		// modify the field directly
-		else if (StringUtils.isNotEmpty(fieldName)) {
+		else if (StringUtil.isNotEmpty(fieldName)) {
 
 			// check for field with list/collection reference
 			if (reference.isCardinalityMultiple()) {
@@ -688,7 +687,7 @@ final class OsgiServiceUtil {
 			throw new NoScrMetadataException(targetClass);
 		}
 		final String methodName = metadata.getModifiedMethodName();
-		if (StringUtils.isEmpty(methodName)) {
+		if (StringUtil.isEmpty(methodName)) {
 			return false;
 		}
 

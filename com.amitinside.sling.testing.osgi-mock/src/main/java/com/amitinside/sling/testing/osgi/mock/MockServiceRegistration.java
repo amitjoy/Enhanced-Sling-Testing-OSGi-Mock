@@ -23,7 +23,6 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.Constants;
 import org.osgi.framework.InvalidSyntaxException;
@@ -133,7 +132,7 @@ class MockServiceRegistration<T> implements ServiceRegistration, Comparable<Mock
 
 	@Override
 	public String toString() {
-		return "#" + this.serviceId + " [" + StringUtils.join(this.clazzes, ",") + "]: " + this.service.toString();
+		return "#" + this.serviceId + " [" + StringUtil.join(this.clazzes, ",") + "]: " + this.service.toString();
 	}
 
 	@Override

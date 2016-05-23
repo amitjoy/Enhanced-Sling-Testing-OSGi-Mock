@@ -40,7 +40,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.commons.lang3.StringUtils;
 import org.osgi.framework.Filter;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
@@ -162,7 +161,7 @@ final class OsgiMetadataUtil {
 
 		private static ReferenceCardinality toCardinality(final String value) {
 			for (final ReferenceCardinality item : ReferenceCardinality.values()) {
-				if (StringUtils.equals(item.getCardinalityString(), value)) {
+				if (StringUtil.equals(item.getCardinalityString(), value)) {
 					return item;
 				}
 			}
@@ -171,7 +170,7 @@ final class OsgiMetadataUtil {
 
 		private static FieldCollectionType toFieldCollectionType(final String value) {
 			for (final FieldCollectionType item : FieldCollectionType.values()) {
-				if (StringUtils.equalsIgnoreCase(item.name(), value)) {
+				if (StringUtil.equalsIgnoreCase(item.name(), value)) {
 					return item;
 				}
 			}
@@ -180,7 +179,7 @@ final class OsgiMetadataUtil {
 
 		private static ReferencePolicy toPolicy(final String value) {
 			for (final ReferencePolicy item : ReferencePolicy.values()) {
-				if (StringUtils.equalsIgnoreCase(item.name(), value)) {
+				if (StringUtil.equalsIgnoreCase(item.name(), value)) {
 					return item;
 				}
 			}
@@ -189,7 +188,7 @@ final class OsgiMetadataUtil {
 
 		private static ReferencePolicyOption toPolicyOption(final String value) {
 			for (final ReferencePolicyOption item : ReferencePolicyOption.values()) {
-				if (StringUtils.equalsIgnoreCase(item.name(), value)) {
+				if (StringUtil.equalsIgnoreCase(item.name(), value)) {
 					return item;
 				}
 			}
@@ -225,7 +224,7 @@ final class OsgiMetadataUtil {
 			this.field = getAttributeValue(node, "field");
 			this.fieldCollectionType = toFieldCollectionType(getAttributeValue(node, "field-collection-type"));
 			this.target = getAttributeValue(node, "target");
-			if (StringUtils.isNotEmpty(this.target)) {
+			if (StringUtil.isNotEmpty(this.target)) {
 				try {
 					this.targetFilter = FilterImpl.newInstance(this.target);
 				} catch (final InvalidSyntaxException ex) {
@@ -469,7 +468,7 @@ final class OsgiMetadataUtil {
 	 * @return XPath query fragment to find matching XML node in SCR metadata
 	 */
 	private static String getComponentXPathQuery(final Class clazz) {
-		final String className = StringUtils.substringBefore(clazz.getName(), "$$Enhancer");
+		final String className = StringUtil.substringBefore(clazz.getName(), "$$Enhancer");
 		return "//*[implementation/@class='" + className + "' or @name='" + className + "']";
 	}
 
@@ -535,7 +534,7 @@ final class OsgiMetadataUtil {
 	}
 
 	public static String getMetadataPath(final Class clazz) {
-		return "OSGI-INF/" + StringUtils.substringBefore(clazz.getName(), "$") + ".xml";
+		return "OSGI-INF/" + StringUtil.substringBefore(clazz.getName(), "$") + ".xml";
 	}
 
 	public static String getOldMetadataMultiPath() {
@@ -552,11 +551,11 @@ final class OsgiMetadataUtil {
 				final String name = getAttributeValue(node, "name");
 				final String value = getAttributeValue(node, "value");
 				final String type = getAttributeValue(node, "type");
-				if (StringUtils.equals("Integer", type)) {
+				if (StringUtil.equals("Integer", type)) {
 					props.put(name, Integer.parseInt(value));
-				} else if (StringUtils.equals("Long", type)) {
+				} else if (StringUtil.equals("Long", type)) {
 					props.put(name, Long.parseLong(value));
-				} else if (StringUtils.equals("Boolean", type)) {
+				} else if (StringUtil.equals("Boolean", type)) {
 					props.put(name, Boolean.parseBoolean(value));
 				} else {
 					props.put(name, value);
@@ -569,9 +568,9 @@ final class OsgiMetadataUtil {
 			for (int i = 0; i < nodes.getLength(); i++) {
 				final Node node = nodes.item(i);
 				final String name = getAttributeValue(node, "name");
-				final String[] value = StringUtils.split(StringUtils.trim(node.getTextContent()), "\n\r");
+				final String[] value = StringUtil.split(StringUtil.trim(node.getTextContent()), "\n\r");
 				for (int j = 0; j < value.length; j++) {
-					value[j] = StringUtils.trim(value[j]);
+					value[j] = StringUtil.trim(value[j]);
 				}
 				props.put(name, value);
 			}
@@ -600,7 +599,7 @@ final class OsgiMetadataUtil {
 			for (int i = 0; i < nodes.getLength(); i++) {
 				final Node node = nodes.item(i);
 				final String serviceInterface = getAttributeValue(node, "interface");
-				if (StringUtils.isNotBlank(serviceInterface)) {
+				if (StringUtil.isNotBlank(serviceInterface)) {
 					serviceInterfaces.add(serviceInterface);
 				}
 			}
