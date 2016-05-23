@@ -10,12 +10,11 @@ Features:
 2. Removed Apache Felix Support
 2. Added Equinox Support
 3. Added Google Guava Dependency
-4. Added Apache Commons Dependency
+4. Removed Apache Commons Dependency
 5. Eclipse Kura Development Environment Compatible (Tested)
 
 ### Maven Central
 ```xml
-<!-- http://mvnrepository.com/artifact/com.amitinside/com.amitinside.tooling.chart.spider -->
 <dependency>
     <groupId>com.amitinside</groupId>
     <artifactId>com.amitinside.sling.testing.osgi-mock</artifactId>
